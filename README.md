@@ -4,7 +4,7 @@ Markdown editor with ReactJS, Chakra-UI.
 
 ## Features
 
-
+⚠️ Because this is a simple project, so I covered about simple features. If you want to scale up it, feel free to contribute.
 - Make new editor.
 - Save draft editor to continue update in the future.
 - Save to file.
@@ -12,6 +12,7 @@ Markdown editor with ReactJS, Chakra-UI.
 
 **Development Features**
 
+- [Typescriipt](https://www.typescriptlang.org/)
 - Node package manager: [YARN](https://yarnpkg.com/).
 - [Conventional commit](https://conventionalcommits.org/).
 - [ESLint](https://eslint.org) - Static code analyzer.
