@@ -5,7 +5,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
 import { ChakraProvider, ColorModeScript } from "@chakra-ui/react";
-import theme from "./theme";
+import theme from "./configs/theme.config";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
