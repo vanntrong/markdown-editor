@@ -24,13 +24,12 @@ interface INavbarItem {
 }
 
 interface INavbarProps {
-  content: string
   changeContent: (content: string) => void
   undoStack: string[]
   undo: () => void
 }
 
-enum ToolbarItem {
+export enum ToolbarItem {
   folder,
   undo,
   redo,
@@ -69,7 +68,7 @@ const getContentFromToolbarItem = (type: ToolbarItem, content: string): string =
   return obj[type]
 }
 
-const Navbar: FC<INavbarProps> = ({ content, changeContent, undoStack, undo }): JSX.Element => {
+const Navbar: FC<INavbarProps> = ({ changeContent, undoStack, undo }): JSX.Element => {
   const handleChange = useCallback(
     (type: ToolbarItem): void => {
       const selection = document.getSelection()?.toString()

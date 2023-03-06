@@ -38,7 +38,6 @@ const Home = (): JSX.Element => {
   return (
     <div>
       <Navbar
-        content={markdownContent}
         changeContent={handleChange}
         undoStack={undoStack}
         undo={() => {
