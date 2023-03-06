@@ -59,7 +59,7 @@
   },
   "scripts": {
     "start": "craco start",
-    "build": "craco build",
+    "build": "npm run test:all && craco build",
     "test": "craco test",
     "eject": "craco eject",
     "lint": "eslint .",
