@@ -13,17 +13,20 @@ const Home = (): JSX.Element => {
     (newContent: string) => {
       const selectionStart = editorRef.current?.selectionStart
       const selectionEnd = editorRef.current?.selectionEnd
+
       if (selectionStart === undefined || selectionEnd === undefined || selectionStart === selectionEnd) {
         setMarkdownContent((prev) => prev + newContent)
         return
       }
 
-      const selectedText = editorRef.current?.value.substring(selectionStart, selectionEnd)
+      const draft = markdownContent
+
+      const selectedText = markdownContent.substring(selectionStart, selectionEnd)
       if (!selectedText) {
         setMarkdownContent((prev) => prev + newContent)
         return
       }
-      const draft = markdownContent
+
       const newContentWithSelection =
         draft.substring(0, selectionStart) + newContent + markdownContent.substring(selectionEnd)
       setMarkdownContent(newContentWithSelection)
