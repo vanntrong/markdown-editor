@@ -10,10 +10,6 @@ const Home = (): JSX.Element => {
   const [undoStack, setUndoStack] = useState<string[]>([])
   const editorRef = useRef<HTMLTextAreaElement>(null)
 
-  // useEffect(() => {
-  //   console.log('undoStack', undoStack)
-  // }, [undoStack])
-
   console.log('undoStack', undoStack)
 
   const handleChange = useCallback(
