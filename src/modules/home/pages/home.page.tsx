@@ -1,22 +1,27 @@
-import { toast } from '@/utils'
-import React from 'react'
+import Navbar from '@/components/navbar'
+import { useState } from 'react'
+
+import Editor from '../components/editor'
+import Preview from '../components/preview'
+import { HomeWrapper } from '../styles/home.styles'
 
 const Home = (): JSX.Element => {
+  const [markdownContent, setMarkdownContent] = useState('')
+
   return (
-    <button
-      onClick={() =>
-        toast({
-          title: 'Error',
-          description: 'ashjdiahsdih',
-          status: 'error',
-          duration: 5000,
-          isClosable: true,
-          position: 'top-right'
-        })
-      }
-    >
-      Show Toast
-    </button>
+    <div>
+      <Navbar />
+
+      <HomeWrapper>
+        <Editor
+          content={markdownContent}
+          onChange={(e) => {
+            setMarkdownContent(e.target.value)
+          }}
+        />
+        <Preview content={markdownContent} />
+      </HomeWrapper>
+    </div>
   )
 }
 
