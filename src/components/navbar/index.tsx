@@ -53,7 +53,7 @@ const getContentFromToolbarItem = (type: ToolbarItem, content: string): string =
     [ToolbarItem.italic]: `*${content}*`,
     [ToolbarItem.heading]: `# ${content}`,
     [ToolbarItem.strikethrough]: `~~${content}~~`,
-    [ToolbarItem.code]: `\`${content}\``,
+    [ToolbarItem.code]: `\`\`\`${content}\`\`\``,
     [ToolbarItem.underscore_list]: `- ${content}`,
     [ToolbarItem.numbered_list]: `1. ${content}`,
     [ToolbarItem.check_list]: `- [ ] ${content}`,
