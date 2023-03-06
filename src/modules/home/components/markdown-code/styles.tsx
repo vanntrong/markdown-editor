@@ -9,6 +9,10 @@ export const MarkdownCodeBlock = styled.code`
   font-size: inherit;
   color: white;
 
+  & > pre {
+    padding: 5px 15px !important;
+  }
+
   &.code {
     display: flex;
     width: 100%;
@@ -28,8 +32,8 @@ export const MarkdownCodeButton = styled(IconButton)`
   background-color: #9e9e9e !important;
   border: 1px solid transparent !important;
   position: absolute !important;
-  top: 10px !important;
-  right: 10px !important;
+  top: 5px !important;
+  right: 5px !important;
 
   &.copied {
     border-color: green !important;

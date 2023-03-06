@@ -4,6 +4,7 @@ export const PreviewWrapper = styled.div`
   flex: 1;
   padding: 10px 60px;
   background-color: #f5f5f5;
+  overflow: auto;
 `
 
 export const MarkdownList = styled.ul`

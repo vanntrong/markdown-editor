@@ -1,4 +1,4 @@
-import { getBlockQuote, getCodeBlock, getHeading, getLink, getList } from '@/utils/markdown'
+import { getBlockQuote, getCodeBlock, getHeading, getLink, getList } from '@/utils'
 import 'katex/dist/katex.min.css'
 import { type FC } from 'react'
 import ReactMarkdown from 'react-markdown'
