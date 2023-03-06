@@ -32,9 +32,7 @@ const MarkdownCode = ({ language, children, className }: any): JSX.Element => {
           {children}
         </SyntaxHighlighter>
       )}
-      {/* <SyntaxHighlighter language={language} style={materialDark}>
-        {children}
-      </SyntaxHighlighter> */}
+
       {language !== 'text' && (
         <MarkdownCodeButton
           aria-label="copy"
