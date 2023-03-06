@@ -20,11 +20,14 @@ interface INavbarItem {
   icon: JSX.Element
   ariaLabel: string
   onClick?: () => void
+  isDisabled?: boolean
 }
 
 interface INavbarProps {
   content: string
   changeContent: (content: string) => void
+  undoStack: string[]
+  undo: () => void
 }
 
 enum ToolbarItem {
@@ -66,7 +69,7 @@ const getContentFromToolbarItem = (type: ToolbarItem, content: string): string =
   return obj[type]
 }
 
-const Navbar: FC<INavbarProps> = ({ content, changeContent }): JSX.Element => {
+const Navbar: FC<INavbarProps> = ({ content, changeContent, undoStack, undo }): JSX.Element => {
   const handleChange = useCallback(
     (type: ToolbarItem): void => {
       const selection = document.getSelection()?.toString()
@@ -93,9 +96,8 @@ const Navbar: FC<INavbarProps> = ({ content, changeContent }): JSX.Element => {
         key: 'undo',
         icon: <IoMdUndo color="gray" size={24} />,
         ariaLabel: 'Undo',
-        onClick: () => {
-          console.log('Undo')
-        }
+        isDisabled: undoStack.length === 0,
+        onClick: undo
       },
       {
         key: 'redo',
@@ -194,7 +196,7 @@ const Navbar: FC<INavbarProps> = ({ content, changeContent }): JSX.Element => {
         }
       }
     ],
-    [handleChange]
+    [handleChange, undo, undoStack]
   )
 
   return (

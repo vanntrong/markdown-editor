@@ -25,6 +25,10 @@ export const NavbarItem = styled(IconButton)`
   &:hover {
     background-color: #3c3c3c !important;
   }
+  &:disabled {
+    background-color: #616161 !important;
+    cursor: not-allowed !important;
+  }
 `
 
 export const InlineEditFileName = styled(Editable)`
