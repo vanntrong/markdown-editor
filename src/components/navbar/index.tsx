@@ -1,5 +1,5 @@
 import { EditableInput, EditablePreview } from '@chakra-ui/react'
-import { useMemo } from 'react'
+import { type FC, useCallback, useMemo } from 'react'
 import {
   BiCodeBlock,
   BiHeading,
@@ -22,7 +22,59 @@ interface INavbarItem {
   onClick?: () => void
 }
 
-const Navbar = (): JSX.Element => {
+interface INavbarProps {
+  content: string
+  changeContent: (content: string) => void
+}
+
+enum ToolbarItem {
+  folder,
+  undo,
+  redo,
+  bold,
+  italic,
+  heading,
+  strikethrough,
+  code,
+  underscore_list,
+  numbered_list,
+  check_list,
+  quote,
+  link,
+  table
+}
+
+const getContentFromToolbarItem = (type: ToolbarItem, content: string): string => {
+  const obj: Record<any, string> = {
+    [ToolbarItem.folder]: '',
+    [ToolbarItem.undo]: '',
+    [ToolbarItem.redo]: '',
+    [ToolbarItem.bold]: `**${content}**`,
+    [ToolbarItem.italic]: `*${content}*`,
+    [ToolbarItem.heading]: `# ${content}`,
+    [ToolbarItem.strikethrough]: `~~${content}~~`,
+    [ToolbarItem.code]: `\`${content}\``,
+    [ToolbarItem.underscore_list]: `- ${content}`,
+    [ToolbarItem.numbered_list]: `1. ${content}`,
+    [ToolbarItem.check_list]: `- [ ] ${content}`,
+    [ToolbarItem.quote]: `> ${content}`,
+    [ToolbarItem.link]: `[${content}](https://example.com)`,
+    [ToolbarItem.table]:
+      '| Header | Header | Header |\n| ------ | ------ | ------ |\n| Cell | Cell | Cell |\n| Cell | Cell | Cell |'
+  }
+
+  return obj[type]
+}
+
+const Navbar: FC<INavbarProps> = ({ content, changeContent }): JSX.Element => {
+  const handleChange = useCallback(
+    (type: ToolbarItem): void => {
+      const newContent = getContentFromToolbarItem(type, ToolbarItem[type])
+      changeContent(newContent)
+    },
+    [changeContent]
+  )
+
   const navbarItemsLeft: INavbarItem[] = useMemo(
     () => [
       {
@@ -54,7 +106,7 @@ const Navbar = (): JSX.Element => {
         icon: <BsTypeBold color="gray" size={24} />,
         ariaLabel: 'Bold',
         onClick: () => {
-          console.log('Bold')
+          handleChange(ToolbarItem.bold)
         }
       },
       {
@@ -62,7 +114,7 @@ const Navbar = (): JSX.Element => {
         icon: <BiItalic color="gray" size={24} />,
         ariaLabel: 'Italic',
         onClick: () => {
-          console.log('Italic')
+          handleChange(ToolbarItem.italic)
         }
       },
       {
@@ -70,7 +122,7 @@ const Navbar = (): JSX.Element => {
         icon: <BiHeading color="gray" size={24} />,
         ariaLabel: 'Heading',
         onClick: () => {
-          console.log('Heading')
+          handleChange(ToolbarItem.heading)
         }
       },
       {
@@ -78,7 +130,7 @@ const Navbar = (): JSX.Element => {
         icon: <BiStrikethrough color="gray" size={24} />,
         ariaLabel: 'Strikethrough',
         onClick: () => {
-          console.log('Strikethrough')
+          handleChange(ToolbarItem.strikethrough)
         }
       },
       {
@@ -86,7 +138,7 @@ const Navbar = (): JSX.Element => {
         icon: <BiCodeBlock color="gray" size={24} />,
         ariaLabel: 'Code',
         onClick: () => {
-          console.log('Code')
+          handleChange(ToolbarItem.code)
         }
       },
       {
@@ -94,7 +146,7 @@ const Navbar = (): JSX.Element => {
         icon: <BiListUl color="gray" size={24} />,
         ariaLabel: 'Underscore list',
         onClick: () => {
-          console.log('Underscore list')
+          handleChange(ToolbarItem.underscore_list)
         }
       },
       {
@@ -102,7 +154,7 @@ const Navbar = (): JSX.Element => {
         icon: <BiListOl color="gray" size={24} />,
         ariaLabel: 'Numbered list',
         onClick: () => {
-          console.log('Numbered list')
+          handleChange(ToolbarItem.numbered_list)
         }
       },
       {
@@ -110,7 +162,7 @@ const Navbar = (): JSX.Element => {
         icon: <BiListCheck color="gray" size={24} />,
         ariaLabel: 'Check list',
         onClick: () => {
-          console.log('Check list')
+          handleChange(ToolbarItem.check_list)
         }
       },
       {
@@ -118,7 +170,7 @@ const Navbar = (): JSX.Element => {
         icon: <BsQuote color="gray" size={24} />,
         ariaLabel: 'Quote',
         onClick: () => {
-          console.log('Quote')
+          handleChange(ToolbarItem.quote)
         }
       },
       {
@@ -126,7 +178,7 @@ const Navbar = (): JSX.Element => {
         icon: <BiTable color="gray" size={24} />,
         ariaLabel: 'Table',
         onClick: () => {
-          console.log('Table')
+          handleChange(ToolbarItem.table)
         }
       },
       {
@@ -134,11 +186,11 @@ const Navbar = (): JSX.Element => {
         icon: <BsLink45Deg color="gray" size={24} />,
         ariaLabel: 'Link',
         onClick: () => {
-          console.log('Link')
+          handleChange(ToolbarItem.link)
         }
       }
     ],
-    []
+    [handleChange]
   )
 
   return (
