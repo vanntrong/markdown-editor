@@ -28,7 +28,6 @@ export const getHeading = ({ node, children }: any): JSX.Element => {
 
 export const getCodeBlock = ({ children, className, ...props }: any): JSX.Element => {
   const match = /language-(\w+)/.exec(className || '')
-  console.log({ props })
   return (
     <MarkdownCode language={match ? match[1] : 'text'} className={className}>
       {String(children).replace(/\n$/, '')}

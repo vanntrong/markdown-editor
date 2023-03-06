@@ -69,7 +69,11 @@ const getContentFromToolbarItem = (type: ToolbarItem, content: string): string =
 const Navbar: FC<INavbarProps> = ({ content, changeContent }): JSX.Element => {
   const handleChange = useCallback(
     (type: ToolbarItem): void => {
-      const newContent = getContentFromToolbarItem(type, ToolbarItem[type])
+      const selection = document.getSelection()?.toString()
+      const newContent = getContentFromToolbarItem(
+        type,
+        selection && selection?.length > 0 ? selection : ToolbarItem[type]
+      )
       changeContent(newContent)
     },
     [changeContent]
