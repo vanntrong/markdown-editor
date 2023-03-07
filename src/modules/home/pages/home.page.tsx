@@ -2,7 +2,7 @@ import Navbar from '@/components/navbar'
 import { MARKDOWN_FILE_SUFFIX } from '@/constants'
 import { downloadFile, uploadFileText } from '@/utils'
 import { type ChangeEvent, useCallback, useRef, useState } from 'react'
-import { ScrollSync, ScrollSyncPane } from 'react-scroll-sync'
+import { ScrollSync, ScrollSyncPane } from 'react-scroll-synchronize'
 
 import Editor from '../components/editor'
 import Preview from '../components/preview'
@@ -19,6 +19,7 @@ const Home = (): JSX.Element => {
 
   const handleChangeContent = useCallback(
     (newContent: string) => {
+      console.log({ editorRef })
       const selectionStart = editorRef.current?.selectionStart
       const selectionEnd = editorRef.current?.selectionEnd
       if (selectionStart === undefined || selectionEnd === undefined || selectionStart === selectionEnd) {
@@ -85,9 +86,8 @@ const Home = (): JSX.Element => {
 
       <ScrollSync>
         <HomeWrapper>
-          <ScrollSyncPane>
+          <ScrollSyncPane innerRef={editorRef}>
             <Editor
-              ref={editorRef}
               content={markdownContent}
               onChange={(e) => {
                 setUndoStack((prev) => [...prev, markdownContent])
@@ -96,8 +96,8 @@ const Home = (): JSX.Element => {
               }}
             />
           </ScrollSyncPane>
-          <ScrollSyncPane>
-            <Preview content={markdownContent} ref={previewRef} />
+          <ScrollSyncPane innerRef={previewRef}>
+            <Preview content={markdownContent} />
           </ScrollSyncPane>
         </HomeWrapper>
       </ScrollSync>
