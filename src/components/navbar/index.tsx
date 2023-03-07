@@ -26,7 +26,7 @@ interface INavbarItem {
 }
 
 interface INavbarProps {
-  changeContent: (content: string) => void
+  changeContent: (content: string, rawContentWithoutMarkdown: string) => Promise<void>
   undo: () => void
   redo: () => void
   isDisableUndo?: boolean
@@ -88,13 +88,11 @@ const Navbar: FC<INavbarProps> = ({
   onUpload
 }): JSX.Element => {
   const handleChange = useCallback(
-    (type: ToolbarItem): void => {
+    async (type: ToolbarItem): Promise<void> => {
       const selection = document.getSelection()?.toString()
-      const newContent = getContentFromToolbarItem(
-        type,
-        selection && selection?.length > 0 ? selection : ToolbarItem[type]
-      )
-      changeContent(newContent)
+      const rawContent = selection && selection?.length > 0 ? selection : ToolbarItem[type]
+      const newContent = getContentFromToolbarItem(type, rawContent)
+      await changeContent(newContent, rawContent)
     },
     [changeContent]
   )

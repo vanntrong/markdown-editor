@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 export const PreviewWrapper = styled.div`
   flex: 1;
-  padding: 10px 60px;
+  padding: 10px 20px;
   background-color: #f5f5f5;
   overflow: auto;
 

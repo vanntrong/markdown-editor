@@ -6,7 +6,7 @@ describe('Navbar', () => {
   it('should render toolbar items correctly', () => {
     render(
       <Navbar
-        changeContent={(va) => {
+        changeContent={async (va) => {
           console.log(va)
         }}
         isDisableUndo={true}
@@ -67,7 +67,7 @@ describe('Navbar Undo Button', () => {
   it('undo button should disabled when undoStack is empty', () => {
     render(
       <Navbar
-        changeContent={(va) => {
+        changeContent={async (va) => {
           console.log(va)
         }}
         isDisableUndo={true}
@@ -87,7 +87,7 @@ describe('Navbar Undo Button', () => {
   it('undo button should not disabled when undoStack is not empty', () => {
     render(
       <Navbar
-        changeContent={(va) => {
+        changeContent={async (va) => {
           console.log(va)
         }}
         isDisableUndo={false}
@@ -109,7 +109,7 @@ describe('Navbar Redo Button', () => {
   it('redo button should disabled when redoStack is empty', () => {
     render(
       <Navbar
-        changeContent={(va) => {
+        changeContent={async (va) => {
           console.log(va)
         }}
         isDisableRedo={true}
@@ -129,7 +129,7 @@ describe('Navbar Redo Button', () => {
   it('redo button should not disabled when redoStack is not empty', () => {
     render(
       <Navbar
-        changeContent={(va) => {
+        changeContent={async (va) => {
           console.log(va)
         }}
         isDisableRedo={false}
