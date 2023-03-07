@@ -25,8 +25,10 @@ interface INavbarItem {
 
 interface INavbarProps {
   changeContent: (content: string) => void
-  undoStack: string[]
   undo: () => void
+  redo: () => void
+  isDisableUndo?: boolean
+  isDisableRedo?: boolean
 }
 
 export enum ToolbarItem {
@@ -68,7 +70,7 @@ const getContentFromToolbarItem = (type: ToolbarItem, content: string): string =
   return obj[type]
 }
 
-const Navbar: FC<INavbarProps> = ({ changeContent, undoStack, undo }): JSX.Element => {
+const Navbar: FC<INavbarProps> = ({ changeContent, isDisableUndo, isDisableRedo, undo, redo }): JSX.Element => {
   const handleChange = useCallback(
     (type: ToolbarItem): void => {
       const selection = document.getSelection()?.toString()
@@ -95,16 +97,15 @@ const Navbar: FC<INavbarProps> = ({ changeContent, undoStack, undo }): JSX.Eleme
         key: 'undo',
         icon: <IoMdUndo color="gray" size={24} />,
         ariaLabel: 'Undo',
-        isDisabled: undoStack.length === 0,
+        isDisabled: isDisableUndo,
         onClick: undo
       },
       {
         key: 'redo',
         icon: <IoMdRedo color="gray" size={24} />,
         ariaLabel: 'Redo',
-        onClick: () => {
-          console.log('Redo')
-        }
+        isDisabled: isDisableRedo,
+        onClick: redo
       },
       {
         key: 'bold',
@@ -195,7 +196,7 @@ const Navbar: FC<INavbarProps> = ({ changeContent, undoStack, undo }): JSX.Eleme
         }
       }
     ],
-    [handleChange, undo, undoStack]
+    [handleChange, undo, isDisableUndo, isDisableRedo, redo]
   )
 
   return (

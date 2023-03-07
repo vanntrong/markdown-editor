@@ -26,7 +26,9 @@ export const NavbarItem = styled(IconButton)`
     background-color: #3c3c3c !important;
   }
   &:disabled {
-    background-color: #616161 !important;
+    &:hover {
+      background-color: unset !important;
+    }
     cursor: not-allowed !important;
   }
 `

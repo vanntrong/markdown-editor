@@ -1,5 +1,5 @@
 import Navbar from '@/components/navbar'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useRef, useState } from 'react'
 
 import Editor from '../components/editor'
 import Preview from '../components/preview'
@@ -8,9 +8,8 @@ import { HomeWrapper } from '../styles/home.styles'
 const Home = (): JSX.Element => {
   const [markdownContent, setMarkdownContent] = useState('')
   const [undoStack, setUndoStack] = useState<string[]>([])
+  const [redoStack, setRedoStack] = useState<string[]>([])
   const editorRef = useRef<HTMLTextAreaElement>(null)
-
-  console.log('undoStack', undoStack)
 
   const handleChange = useCallback(
     (newContent: string) => {
@@ -39,9 +38,15 @@ const Home = (): JSX.Element => {
     <div>
       <Navbar
         changeContent={handleChange}
-        undoStack={undoStack}
+        isDisableUndo={undoStack.length === 0}
+        isDisableRedo={redoStack.length === 0}
         undo={() => {
+          setRedoStack((prev) => [...prev, markdownContent])
           setMarkdownContent(undoStack.pop() ?? '')
+        }}
+        redo={() => {
+          setUndoStack((prev) => [...prev, markdownContent])
+          setMarkdownContent(redoStack.pop() ?? '')
         }}
       />
 
