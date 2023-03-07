@@ -18,12 +18,26 @@ const Home = (): JSX.Element => {
   const uploadFileRef = useRef<HTMLInputElement>(null)
 
   const handleChangeContent = useCallback(
-    (newContent: string) => {
-      console.log({ editorRef })
+    async (newContent: string, rawContentWithoutMarkdown: string) => {
       const selectionStart = editorRef.current?.selectionStart
       const selectionEnd = editorRef.current?.selectionEnd
       if (selectionStart === undefined || selectionEnd === undefined || selectionStart === selectionEnd) {
         setMarkdownContent((prev) => prev + newContent)
+        // select this new content
+        const sizeDiffBetweenMarkdownAndRaw = Math.floor((newContent.length - rawContentWithoutMarkdown.length) / 2) // /2 because of the markdown syntax like: **bold**
+
+        const newSelectionStart = markdownContent.length + sizeDiffBetweenMarkdownAndRaw
+
+        const newSelectionEnd = markdownContent.length + newContent.length - sizeDiffBetweenMarkdownAndRaw
+
+        // use promise to make sure that the selection is set after the focus
+        new Promise((resolve) => {
+          editorRef.current?.focus()
+          resolve(true)
+        }).then(() => {
+          editorRef.current?.setSelectionRange(newSelectionStart, newSelectionEnd)
+        })
+
         return
       }
 
@@ -33,7 +47,6 @@ const Home = (): JSX.Element => {
         return
       }
       const draft = markdownContent
-
       const newContentWithSelection =
         draft.substring(0, selectionStart) + newContent + markdownContent.substring(selectionEnd)
       setMarkdownContent(newContentWithSelection)
