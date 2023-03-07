@@ -2,13 +2,15 @@ import { EditableInput, EditablePreview } from '@chakra-ui/react'
 import { type FC, useCallback, useMemo } from 'react'
 import {
   BiCodeBlock,
+  BiDownload,
   BiHeading,
   BiItalic,
   BiListCheck,
   BiListOl,
   BiListUl,
   BiStrikethrough,
-  BiTable
+  BiTable,
+  BiUpload
 } from 'react-icons/bi'
 import { BsFolderFill, BsLink45Deg, BsQuote, BsTypeBold } from 'react-icons/bs'
 import { IoMdRedo, IoMdUndo } from 'react-icons/io'
@@ -29,6 +31,10 @@ interface INavbarProps {
   redo: () => void
   isDisableUndo?: boolean
   isDisableRedo?: boolean
+  filename?: string
+  onChangeFilename?: (newFilename: string) => void
+  onDownload?: () => void
+  onUpload?: () => void
 }
 
 export enum ToolbarItem {
@@ -70,7 +76,17 @@ const getContentFromToolbarItem = (type: ToolbarItem, content: string): string =
   return obj[type]
 }
 
-const Navbar: FC<INavbarProps> = ({ changeContent, isDisableUndo, isDisableRedo, undo, redo }): JSX.Element => {
+const Navbar: FC<INavbarProps> = ({
+  changeContent,
+  isDisableUndo,
+  isDisableRedo,
+  undo,
+  redo,
+  filename = 'Untitled',
+  onChangeFilename,
+  onDownload,
+  onUpload
+}): JSX.Element => {
   const handleChange = useCallback(
     (type: ToolbarItem): void => {
       const selection = document.getSelection()?.toString()
@@ -199,6 +215,28 @@ const Navbar: FC<INavbarProps> = ({ changeContent, isDisableUndo, isDisableRedo,
     [handleChange, undo, isDisableUndo, isDisableRedo, redo]
   )
 
+  const navbarItemsRight: INavbarItem[] = useMemo(
+    () => [
+      {
+        key: 'download',
+        icon: <BiDownload color="gray" size={24} />,
+        ariaLabel: 'Download',
+        onClick: () => {
+          onDownload?.()
+        }
+      },
+      {
+        key: 'upload',
+        icon: <BiUpload color="gray" size={24} />,
+        ariaLabel: 'Upload',
+        onClick: () => {
+          onUpload?.()
+        }
+      }
+    ],
+    [onDownload, onUpload]
+  )
+
   return (
     <NavbarContainer>
       <NavbarItemsWrapper>
@@ -208,10 +246,19 @@ const Navbar: FC<INavbarProps> = ({ changeContent, isDisableUndo, isDisableRedo,
       </NavbarItemsWrapper>
 
       <NavbarItemsWrapper>
-        <InlineEditFileName defaultValue="Default file name">
+        <InlineEditFileName
+          value={filename}
+          onChange={(val: string) => {
+            onChangeFilename?.(val)
+          }}
+        >
           <EditablePreview />
           <EditableInput />
         </InlineEditFileName>
+
+        {navbarItemsRight.map(({ ariaLabel, icon, key, ...props }) => (
+          <NavbarItem aria-label={ariaLabel} icon={icon} key={key} {...props} title={ariaLabel} />
+        ))}
       </NavbarItemsWrapper>
     </NavbarContainer>
   )

@@ -1,5 +1,7 @@
 import Navbar from '@/components/navbar'
-import { useCallback, useRef, useState } from 'react'
+import { MARKDOWN_FILE_SUFFIX } from '@/constants'
+import { downloadFile, uploadFileText } from '@/utils'
+import { type ChangeEvent, useCallback, useRef, useState } from 'react'
 
 import Editor from '../components/editor'
 import Preview from '../components/preview'
@@ -9,9 +11,11 @@ const Home = (): JSX.Element => {
   const [markdownContent, setMarkdownContent] = useState('')
   const [undoStack, setUndoStack] = useState<string[]>([])
   const [redoStack, setRedoStack] = useState<string[]>([])
+  const [filename, setFilename] = useState('Untitled')
   const editorRef = useRef<HTMLTextAreaElement>(null)
+  const uploadFileRef = useRef<HTMLInputElement>(null)
 
-  const handleChange = useCallback(
+  const handleChangeContent = useCallback(
     (newContent: string) => {
       const selectionStart = editorRef.current?.selectionStart
       const selectionEnd = editorRef.current?.selectionEnd
@@ -34,10 +38,26 @@ const Home = (): JSX.Element => {
     [markdownContent]
   )
 
+  const handleUpload = useCallback((e: ChangeEvent<HTMLInputElement>): void => {
+    const file = e.target.files?.[0]
+    if (!file) {
+      return
+    }
+
+    uploadFileText(file)
+      .then(({ filename, content }) => {
+        setFilename(filename)
+        setMarkdownContent(content)
+      })
+      .catch((e) => {
+        console.error(e)
+      })
+  }, [])
+
   return (
     <div>
       <Navbar
-        changeContent={handleChange}
+        changeContent={handleChangeContent}
         isDisableUndo={undoStack.length === 0}
         isDisableRedo={redoStack.length === 0}
         undo={() => {
@@ -48,7 +68,18 @@ const Home = (): JSX.Element => {
           setUndoStack((prev) => [...prev, markdownContent])
           setMarkdownContent(redoStack.pop() ?? '')
         }}
+        filename={filename}
+        onChangeFilename={(val) => {
+          setFilename(val)
+        }}
+        onDownload={() => {
+          downloadFile(filename, markdownContent, MARKDOWN_FILE_SUFFIX)
+        }}
+        onUpload={() => {
+          uploadFileRef.current?.click()
+        }}
       />
+      <input type="file" hidden ref={uploadFileRef} onChange={handleUpload} />
 
       <HomeWrapper>
         <Editor
