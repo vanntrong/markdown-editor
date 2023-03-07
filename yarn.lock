@@ -9965,7 +9965,7 @@ prompts@^2.0.1, prompts@^2.4.2:
     kleur "^3.0.3"
     sisteransi "^1.0.5"
 
-prop-types@^15.0.0, prop-types@^15.6.2, prop-types@^15.8.1:
+prop-types@^15.0.0, prop-types@^15.5.7, prop-types@^15.6.2, prop-types@^15.8.1:
   version "15.8.1"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.8.1.tgz#67d87bf1a694f48435cf332c24af10214a3140b5"
   integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
@@ -10283,6 +10283,13 @@ react-scripts@5.0.1:
     workbox-webpack-plugin "^6.4.1"
   optionalDependencies:
     fsevents "^2.3.2"
+
+react-scroll-synchronize@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/react-scroll-synchronize/-/react-scroll-synchronize-0.0.1.tgz#e8af2c7e099e2aaa6f575514e2210abfdc8542f3"
+  integrity sha512-QQe7r5z2keFet5PckxNxyWoUFRrOpq6Z40baKxHUXjcJwwPtPg61CiaxFQR1Dt0NbQJ1XgQzkLB7OUSFLqf7DQ==
+  dependencies:
+    prop-types "^15.5.7"
 
 react-style-singleton@^2.2.1:
   version "2.2.1"

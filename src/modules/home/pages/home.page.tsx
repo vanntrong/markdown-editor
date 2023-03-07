@@ -2,6 +2,7 @@ import Navbar from '@/components/navbar'
 import { MARKDOWN_FILE_SUFFIX } from '@/constants'
 import { downloadFile, uploadFileText } from '@/utils'
 import { type ChangeEvent, useCallback, useRef, useState } from 'react'
+import { ScrollSync, ScrollSyncPane } from 'react-scroll-synchronize'
 
 import Editor from '../components/editor'
 import Preview from '../components/preview'
@@ -13,10 +14,12 @@ const Home = (): JSX.Element => {
   const [redoStack, setRedoStack] = useState<string[]>([])
   const [filename, setFilename] = useState('Untitled')
   const editorRef = useRef<HTMLTextAreaElement>(null)
+  const previewRef = useRef<HTMLDivElement>(null)
   const uploadFileRef = useRef<HTMLInputElement>(null)
 
   const handleChangeContent = useCallback(
     (newContent: string) => {
+      console.log({ editorRef })
       const selectionStart = editorRef.current?.selectionStart
       const selectionEnd = editorRef.current?.selectionEnd
       if (selectionStart === undefined || selectionEnd === undefined || selectionStart === selectionEnd) {
@@ -81,18 +84,23 @@ const Home = (): JSX.Element => {
       />
       <input type="file" hidden ref={uploadFileRef} onChange={handleUpload} />
 
-      <HomeWrapper>
-        <Editor
-          ref={editorRef}
-          content={markdownContent}
-          onChange={(e) => {
-            setUndoStack((prev) => [...prev, markdownContent])
+      <ScrollSync>
+        <HomeWrapper>
+          <ScrollSyncPane innerRef={editorRef}>
+            <Editor
+              content={markdownContent}
+              onChange={(e) => {
+                setUndoStack((prev) => [...prev, markdownContent])
 
-            setMarkdownContent(e.target.value)
-          }}
-        />
-        <Preview content={markdownContent} />
-      </HomeWrapper>
+                setMarkdownContent(e.target.value)
+              }}
+            />
+          </ScrollSyncPane>
+          <ScrollSyncPane innerRef={previewRef}>
+            <Preview content={markdownContent} />
+          </ScrollSyncPane>
+        </HomeWrapper>
+      </ScrollSync>
     </div>
   )
 }
