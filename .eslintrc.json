@@ -11,7 +11,7 @@
     "react-app/jest",
     "plugin:import/typescript"
   ],
-  "ignorePatterns": ["node_modules", "dist", "build", "*.config.js"],
+  "ignorePatterns": ["node_modules", "dist", "build", "*.config.js", "*.d.ts"],
   "overrides": [],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -24,6 +24,8 @@
     "react/react-in-jsx-scope": ["off"],
     "react/jsx-uses-react": ["off"],
     "react/jsx-props-no-spreading": ["off"],
-    "react/no-unescaped-entities": ["off"]
+    "react/no-unescaped-entities": ["off"],
+    "@typescript-eslint/strict-boolean-expressions": ["off"],
+    "multiline-ternary": "off"
   }
 }
