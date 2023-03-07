@@ -2,6 +2,7 @@ import Navbar from '@/components/navbar'
 import { MARKDOWN_FILE_SUFFIX } from '@/constants'
 import { downloadFile, uploadFileText } from '@/utils'
 import { type ChangeEvent, useCallback, useRef, useState } from 'react'
+import { ScrollSync, ScrollSyncPane } from 'react-scroll-sync'
 
 import Editor from '../components/editor'
 import Preview from '../components/preview'
@@ -13,6 +14,7 @@ const Home = (): JSX.Element => {
   const [redoStack, setRedoStack] = useState<string[]>([])
   const [filename, setFilename] = useState('Untitled')
   const editorRef = useRef<HTMLTextAreaElement>(null)
+  const previewRef = useRef<HTMLDivElement>(null)
   const uploadFileRef = useRef<HTMLInputElement>(null)
 
   const handleChangeContent = useCallback(
@@ -81,18 +83,24 @@ const Home = (): JSX.Element => {
       />
       <input type="file" hidden ref={uploadFileRef} onChange={handleUpload} />
 
-      <HomeWrapper>
-        <Editor
-          ref={editorRef}
-          content={markdownContent}
-          onChange={(e) => {
-            setUndoStack((prev) => [...prev, markdownContent])
+      <ScrollSync>
+        <HomeWrapper>
+          <ScrollSyncPane>
+            <Editor
+              ref={editorRef}
+              content={markdownContent}
+              onChange={(e) => {
+                setUndoStack((prev) => [...prev, markdownContent])
 
-            setMarkdownContent(e.target.value)
-          }}
-        />
-        <Preview content={markdownContent} />
-      </HomeWrapper>
+                setMarkdownContent(e.target.value)
+              }}
+            />
+          </ScrollSyncPane>
+          <ScrollSyncPane>
+            <Preview content={markdownContent} ref={previewRef} />
+          </ScrollSyncPane>
+        </HomeWrapper>
+      </ScrollSync>
     </div>
   )
 }

@@ -1,6 +1,6 @@
 import { getBlockQuote, getCodeBlock, getHeading, getLink, getList } from '@/utils'
 import 'katex/dist/katex.min.css'
-import { type FC } from 'react'
+import { forwardRef } from 'react'
 import ReactMarkdown from 'react-markdown'
 // support for math
 import rehypeKatex from 'rehype-katex'
@@ -27,14 +27,16 @@ const components = {
   blockquote: getBlockQuote
 }
 
-const Preview: FC<IPreviewProps> = ({ content }): JSX.Element => {
+const Preview = forwardRef<HTMLDivElement, IPreviewProps>(({ content }, ref): JSX.Element => {
   return (
-    <PreviewWrapper>
+    <PreviewWrapper ref={ref}>
       <ReactMarkdown remarkPlugins={[remarkGfm, remarkMath]} rehypePlugins={[rehypeKatex]} components={components}>
         {content}
       </ReactMarkdown>
     </PreviewWrapper>
   )
-}
+})
+
+Preview.displayName = 'Preview'
 
 export default Preview
