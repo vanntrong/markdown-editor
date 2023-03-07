@@ -1,7 +1,7 @@
 import Navbar from '@/components/navbar'
 import { MARKDOWN_FILE_SUFFIX } from '@/constants'
 import { downloadFile, uploadFileText } from '@/utils'
-import { type ChangeEvent, useCallback, useRef, useState } from 'react'
+import { type ChangeEvent, useCallback, useEffect, useRef, useState } from 'react'
 import { ScrollSync, ScrollSyncPane } from 'react-scroll-synchronize'
 
 import Editor from '../components/editor'
@@ -56,6 +56,22 @@ const Home = (): JSX.Element => {
         console.error(e)
       })
   }, [])
+
+  useEffect(() => {
+    setMarkdownContent(localStorage.getItem('markdownContent') ?? '')
+    setFilename(localStorage.getItem('filename') ?? 'Untitled')
+  }, [])
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      localStorage.setItem('markdownContent', markdownContent)
+      localStorage.setItem('filename', filename)
+    }, 500)
+
+    return () => {
+      clearTimeout(timer)
+    }
+  }, [markdownContent, filename])
 
   return (
     <div>
