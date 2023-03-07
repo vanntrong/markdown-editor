@@ -5,6 +5,10 @@ export const PreviewWrapper = styled.div`
   padding: 10px 60px;
   background-color: #f5f5f5;
   overflow: auto;
+
+  @media screen and (max-width: 768px) {
+    padding: 10px 12px;
+  }
 `
 
 export const MarkdownList = styled.ul`

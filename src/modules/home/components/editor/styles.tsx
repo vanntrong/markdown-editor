@@ -4,6 +4,10 @@ import styled from 'styled-components'
 export const EditorWrapper = styled.div`
   flex: 1;
   padding: 0px 60px;
+
+  @media screen and (max-width: 768px) {
+    padding: 0;
+  }
 `
 export const EditorTextArea = styled(Textarea)<TextareaProps>`
   width: 100% !important;

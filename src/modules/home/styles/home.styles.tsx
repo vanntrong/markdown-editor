@@ -9,4 +9,8 @@ export const HomeWrapper = styled.div`
   overflow: hidden;
   align-items: stretch;
   background-color: white;
+
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+  }
 `
