@@ -9,9 +9,12 @@ describe('Navbar', () => {
         changeContent={(va) => {
           console.log(va)
         }}
-        undoStack={[]}
+        isDisableUndo={true}
         undo={() => {
           console.log('Undo')
+        }}
+        redo={() => {
+          console.log('Redo')
         }}
       />
     )
@@ -67,9 +70,12 @@ describe('Navbar Undo Button', () => {
         changeContent={(va) => {
           console.log(va)
         }}
-        undoStack={[]}
+        isDisableUndo={true}
         undo={() => {
           console.log('Undo')
+        }}
+        redo={() => {
+          console.log('Redo')
         }}
       />
     )
@@ -84,15 +90,60 @@ describe('Navbar Undo Button', () => {
         changeContent={(va) => {
           console.log(va)
         }}
-        undoStack={['test']}
+        isDisableUndo={false}
         undo={() => {
           console.log('Undo')
+        }}
+        redo={() => {
+          console.log('Redo')
         }}
       />
     )
 
     const undoButton = screen.getByTitle('Undo')
     expect(undoButton).not.toBeDisabled()
+  })
+})
+
+describe('Navbar Redo Button', () => {
+  it('redo button should disabled when redoStack is empty', () => {
+    render(
+      <Navbar
+        changeContent={(va) => {
+          console.log(va)
+        }}
+        isDisableRedo={true}
+        undo={() => {
+          console.log('Undo')
+        }}
+        redo={() => {
+          console.log('Redo')
+        }}
+      />
+    )
+
+    const redoButton = screen.getByTitle('Redo')
+    expect(redoButton).toBeDisabled()
+  })
+
+  it('redo button should not disabled when redoStack is not empty', () => {
+    render(
+      <Navbar
+        changeContent={(va) => {
+          console.log(va)
+        }}
+        isDisableRedo={false}
+        undo={() => {
+          console.log('Undo')
+        }}
+        redo={() => {
+          console.log('Redo')
+        }}
+      />
+    )
+
+    const redoButton = screen.getByTitle('Redo')
+    expect(redoButton).not.toBeDisabled()
   })
 })
 
@@ -103,9 +154,12 @@ describe('Navbar Bold Button', () => {
     render(
       <Navbar
         changeContent={handleChange}
-        undoStack={[]}
+        isDisableUndo={true}
         undo={() => {
           console.log('Undo')
+        }}
+        redo={() => {
+          console.log('Redo')
         }}
       />
     )
@@ -124,9 +178,12 @@ describe('Navbar Italic Button', () => {
     render(
       <Navbar
         changeContent={handleChange}
-        undoStack={[]}
+        isDisableUndo={true}
         undo={() => {
           console.log('Undo')
+        }}
+        redo={() => {
+          console.log('Redo')
         }}
       />
     )
@@ -145,9 +202,12 @@ describe('Navbar Heading Button', () => {
     render(
       <Navbar
         changeContent={handleChange}
-        undoStack={[]}
+        isDisableUndo={true}
         undo={() => {
           console.log('Undo')
+        }}
+        redo={() => {
+          console.log('Redo')
         }}
       />
     )
@@ -166,9 +226,12 @@ describe('Navbar Strikethrough Button', () => {
     render(
       <Navbar
         changeContent={handleChange}
-        undoStack={[]}
+        isDisableUndo={true}
         undo={() => {
           console.log('Undo')
+        }}
+        redo={() => {
+          console.log('Redo')
         }}
       />
     )
@@ -187,9 +250,12 @@ describe('Navbar Link Button', () => {
     render(
       <Navbar
         changeContent={handleChange}
-        undoStack={[]}
+        isDisableUndo={true}
         undo={() => {
           console.log('Undo')
+        }}
+        redo={() => {
+          console.log('Redo')
         }}
       />
     )
@@ -208,9 +274,12 @@ describe('Navbar Code Button', () => {
     render(
       <Navbar
         changeContent={handleChange}
-        undoStack={[]}
+        isDisableUndo={true}
         undo={() => {
           console.log('Undo')
+        }}
+        redo={() => {
+          console.log('Redo')
         }}
       />
     )
@@ -229,9 +298,12 @@ describe('Navbar Quote Button', () => {
     render(
       <Navbar
         changeContent={handleChange}
-        undoStack={[]}
+        isDisableUndo={true}
         undo={() => {
           console.log('Undo')
+        }}
+        redo={() => {
+          console.log('Redo')
         }}
       />
     )
@@ -250,9 +322,12 @@ describe('Navbar Underscore List Button', () => {
     render(
       <Navbar
         changeContent={handleChange}
-        undoStack={[]}
+        isDisableUndo={true}
         undo={() => {
           console.log('Undo')
+        }}
+        redo={() => {
+          console.log('Redo')
         }}
       />
     )
@@ -271,9 +346,12 @@ describe('Navbar Number List Button', () => {
     render(
       <Navbar
         changeContent={handleChange}
-        undoStack={[]}
+        isDisableUndo={true}
         undo={() => {
           console.log('Undo')
+        }}
+        redo={() => {
+          console.log('Redo')
         }}
       />
     )
@@ -292,9 +370,12 @@ describe('Navbar Checkbox List Button', () => {
     render(
       <Navbar
         changeContent={handleChange}
-        undoStack={[]}
+        isDisableUndo={true}
         undo={() => {
           console.log('Undo')
+        }}
+        redo={() => {
+          console.log('Redo')
         }}
       />
     )
@@ -313,9 +394,12 @@ describe('Navbar Table Button', () => {
     render(
       <Navbar
         changeContent={handleChange}
-        undoStack={[]}
+        isDisableUndo={true}
         undo={() => {
           console.log('Undo')
+        }}
+        redo={() => {
+          console.log('Redo')
         }}
       />
     )
