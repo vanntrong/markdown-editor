@@ -12,12 +12,17 @@ interface UseGetMeOutput {
 
 const useGetMe = (): UseGetMeOutput => {
   const getMe = useCallback(async (): Promise<GetMeOutput> => {
-    const { data, error: _err } = await supabase.auth.getSession()
-    if (_err) throw new Error(_err.message)
-    const { data: user, error } = await supabase.from('profiles').select().eq('id', data.session?.user.id).single()
-    if (error) throw new Error(error.message)
-    return {
-      user: user as User
+    try {
+      const { data } = await supabase.auth.getSession()
+      const { data: user } = await supabase.from('profiles').select().eq('id', data.session?.user.id).single()
+      return {
+        user: user as User
+      }
+    } catch (error) {
+      console.error(error)
+      return {
+        user: null
+      }
     }
   }, [])
 

@@ -24,7 +24,6 @@ const useLoginOAuth = (): LoginOutput => {
         duration: 5000,
         position: 'top-right'
       })
-      // return
     }
   }, [])
 
