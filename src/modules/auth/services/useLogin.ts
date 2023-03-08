@@ -11,7 +11,10 @@ interface LoginOutput {
 const useLoginOAuth = (): LoginOutput => {
   const login = useCallback(async (provider: LoginProvider) => {
     const { error } = await supabase.auth.signInWithOAuth({
-      provider
+      provider,
+      options: {
+        redirectTo: window.location.origin
+      }
     })
     if (error) {
       toast({
