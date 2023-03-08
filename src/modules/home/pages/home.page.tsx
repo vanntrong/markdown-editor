@@ -24,11 +24,22 @@ const Home = (): JSX.Element => {
       if (selectionStart === undefined || selectionEnd === undefined || selectionStart === selectionEnd) {
         setMarkdownContent((prev) => prev + newContent)
         // select this new content
-        const sizeDiffBetweenMarkdownAndRaw = Math.floor((newContent.length - rawContentWithoutMarkdown.length) / 2) // /2 because of the markdown syntax like: **bold**
+        let sizeDiffBetweenMarkdownAndRaw: number
+        if (newContent.includes('#')) {
+          // for heading # we don't need to divide by 2
+          sizeDiffBetweenMarkdownAndRaw = newContent.length - rawContentWithoutMarkdown.length
+        } else {
+          sizeDiffBetweenMarkdownAndRaw = Math.floor((newContent.length - rawContentWithoutMarkdown.length) / 2) // /2 because of the markdown syntax like: **bold**
+        }
 
         const newSelectionStart = markdownContent.length + sizeDiffBetweenMarkdownAndRaw
 
-        const newSelectionEnd = markdownContent.length + newContent.length - sizeDiffBetweenMarkdownAndRaw
+        let newSelectionEnd: number
+        if (newContent.includes('#')) {
+          newSelectionEnd = markdownContent.length + newContent.length
+        } else {
+          newSelectionEnd = markdownContent.length + newContent.length - sizeDiffBetweenMarkdownAndRaw
+        }
 
         // use promise to make sure that the selection is set after the focus
         new Promise((resolve) => {
