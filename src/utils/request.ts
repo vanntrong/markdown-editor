@@ -1,11 +1,11 @@
-import { API_URL } from '@/constants'
+// import { API_URL } from '@/constants'
 import axios from 'axios'
 
 import { clearCookies, getCookie } from './cookies'
 import { toast } from './toast'
 
 export const request = axios.create({
-  baseURL: API_URL
+  baseURL: 'http://localhost:3000'
 })
 
 const token = getCookie('access_token')

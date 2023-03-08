@@ -1,5 +1,6 @@
 import { type User } from '@/interfaces'
-import { type FC, type PropsWithChildren, createContext, useContext, useMemo, useState } from 'react'
+import useGetMe from '@/modules/auth/services/useGetMe'
+import { type FC, type PropsWithChildren, createContext, useContext, useEffect, useState } from 'react'
 
 export interface IAuthContext {
   user: User | null
@@ -17,15 +18,17 @@ export const useAuthContext = (): IAuthContext => useContext(AuthContext)
 
 export const AuthProvider: FC<PropsWithChildren> = ({ children }): JSX.Element => {
   const [user, setUser] = useState<User | null>(null)
+  const { getMe } = useGetMe()
 
-  const values = useMemo(
-    () => ({
-      user,
-      setUser,
-      isAuthenticated: !(user === null)
-    }),
-    [user]
-  )
+  useEffect(() => {
+    getMe()
+      .then(({ user }) => {
+        setUser(user)
+      })
+      .catch((err) => {
+        console.error(err)
+      })
+  }, [getMe])
 
-  return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>
+  return <AuthContext.Provider value={{ user, setUser, isAuthenticated: !!user }}>{children}</AuthContext.Provider>
 }

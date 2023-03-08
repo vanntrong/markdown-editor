@@ -1,1 +1,3 @@
-export const API_URL = 'http://localhost:4000'
+export const SUPABASE_URL = 'https://erjmbhbfdvjyqblfirjz.supabase.co'
+export const SUPABASE_API_KEY =
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVyam1iaGJmZHZqeXFibGZpcmp6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzgyNTY1MDUsImV4cCI6MTk5MzgzMjUwNX0.tyCqxJNPAnmKRb3KWNuAKWWnM22Aoivs1MIo4qJSOm8'

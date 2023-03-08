@@ -9,6 +9,11 @@ export const publicRoutes: Route[] = [
     path: ROUTES.home,
     component: <Home />
   },
+  // {
+  //   key: 'sign-up',
+  //   path: ROUTES['sign-up'],
+  //   component: <SignUp />
+  // },
   {
     key: 'login',
     path: ROUTES.login,
