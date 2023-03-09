@@ -1,5 +1,7 @@
 import Navbar from '@/components/navbar'
 import { MARKDOWN_FILE_SUFFIX } from '@/constants'
+import { useAppContext } from '@/contexts/app.context'
+import useUpdateWorkspace from '@/modules/workspace/services/useUpdateWorkspace'
 import { downloadFile, uploadFileText } from '@/utils'
 import { type ChangeEvent, useCallback, useEffect, useRef, useState } from 'react'
 import { ScrollSync, ScrollSyncPane } from 'react-scroll-synchronize'
@@ -9,6 +11,7 @@ import Preview from '../components/preview'
 import { HomeWrapper } from '../styles/home.styles'
 
 const Home = (): JSX.Element => {
+  const { currentWorkspace } = useAppContext()
   const [markdownContent, setMarkdownContent] = useState('')
   const [undoStack, setUndoStack] = useState<string[]>([])
   const [redoStack, setRedoStack] = useState<string[]>([])
@@ -16,6 +19,8 @@ const Home = (): JSX.Element => {
   const editorRef = useRef<HTMLTextAreaElement>(null)
   const previewRef = useRef<HTMLDivElement>(null)
   const uploadFileRef = useRef<HTMLInputElement>(null)
+
+  const { updateWorkspace } = useUpdateWorkspace()
 
   const handleChangeContent = useCallback(
     async (newContent: string, rawContentWithoutMarkdown: string) => {
@@ -82,14 +87,27 @@ const Home = (): JSX.Element => {
   }, [])
 
   useEffect(() => {
-    setMarkdownContent(localStorage.getItem('markdownContent') ?? '')
-    setFilename(localStorage.getItem('filename') ?? 'Untitled')
-  }, [])
+    if (currentWorkspace) {
+      setMarkdownContent(currentWorkspace.content ?? '')
+      setFilename(currentWorkspace.name)
+    } else {
+      setMarkdownContent(localStorage.getItem('markdownContent') ?? '')
+      setFilename(localStorage.getItem('filename') ?? 'Untitled')
+    }
+  }, [currentWorkspace])
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      localStorage.setItem('markdownContent', markdownContent)
-      localStorage.setItem('filename', filename)
+      if (currentWorkspace) {
+        updateWorkspace({
+          ...currentWorkspace,
+          content: markdownContent,
+          name: filename
+        })
+      } else {
+        localStorage.setItem('markdownContent', markdownContent)
+        localStorage.setItem('filename', filename)
+      }
     }, 500)
 
     return () => {

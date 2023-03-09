@@ -1,6 +1,7 @@
+import { useAppContext } from '@/contexts/app.context'
 import useLogout from '@/modules/auth/services/useLogOut'
 import { EditableInput, EditablePreview } from '@chakra-ui/react'
-import { type FC, useCallback, useMemo } from 'react'
+import { type FC, useCallback, useMemo, useState } from 'react'
 import {
   BiCodeBlock,
   BiDownload,
@@ -16,6 +17,7 @@ import {
 import { BsFolderFill, BsLink45Deg, BsQuote, BsTypeBold } from 'react-icons/bs'
 import { IoMdRedo, IoMdUndo } from 'react-icons/io'
 
+import NavbarDrawerWorkspace from './navbar-drawer-workspace'
 import NavbarMenu from './navbar-menu'
 import { InlineEditFileName, NavbarContainer, NavbarItem, NavbarItemsWrapper } from './styles'
 
@@ -89,7 +91,9 @@ const Navbar: FC<INavbarProps> = ({
   onDownload,
   onUpload
 }): JSX.Element => {
+  const [isShowManageWorkspace, setIsShowManageWorkspace] = useState(false)
   const { logout } = useLogout()
+  const { workspaces } = useAppContext()
 
   const handleChange = useCallback(
     async (type: ToolbarItem): Promise<void> => {
@@ -108,7 +112,7 @@ const Navbar: FC<INavbarProps> = ({
         icon: <BsFolderFill color="gray" size={24} />,
         ariaLabel: 'Folder',
         onClick: () => {
-          console.log('Folder')
+          setIsShowManageWorkspace(true)
         }
       },
       {
@@ -263,6 +267,14 @@ const Navbar: FC<INavbarProps> = ({
         ))}
         <NavbarMenu onLogout={logout} />
       </NavbarItemsWrapper>
+
+      <NavbarDrawerWorkspace
+        isOpen={isShowManageWorkspace}
+        onClose={() => {
+          setIsShowManageWorkspace(false)
+        }}
+        workspaces={workspaces}
+      />
     </NavbarContainer>
   )
 }

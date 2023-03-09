@@ -18,9 +18,6 @@ const NavbarMenu: FC<INavbarMenuProps> = ({ onLogout }): JSX.Element => {
             <Avatar name={user.full_name ?? ''} src={user.avatar_url ?? ''} size={'sm'} />
           </MenuButton>
           <MenuList>
-            <Link to={'/workspace'}>
-              <MenuItem>Workspace</MenuItem>
-            </Link>
             <MenuItem onClick={onLogout}>Logout</MenuItem>
           </MenuList>
         </Menu>

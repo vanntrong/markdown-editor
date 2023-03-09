@@ -5,6 +5,7 @@ import ReactDOM from 'react-dom/client'
 
 import App from './App'
 import { theme } from './configs/theme.config'
+import { AppProvider } from './contexts/app.context'
 import { AuthProvider } from './contexts/auth.context'
 import './index.css'
 import { ToastContainer } from './utils'
@@ -17,9 +18,11 @@ root.render(
     <ChakraProvider>
       <ColorModeScript initialColorMode={theme.config.initialColorMode} />
       <AuthProvider>
-        <QueryClientProvider client={queryClient}>
-          <App />
-        </QueryClientProvider>
+        <AppProvider>
+          <QueryClientProvider client={queryClient}>
+            <App />
+          </QueryClientProvider>
+        </AppProvider>
       </AuthProvider>
       <ToastContainer />
     </ChakraProvider>
