@@ -12,7 +12,7 @@ Markdown editor with ReactJS, Chakra-UI.
 
 **Development Features**
 
-- [Typescriipt](https://www.typescriptlang.org/)
+- [Typescript](https://www.typescriptlang.org/)
 - Node package manager: [YARN](https://yarnpkg.com/).
 - [Conventional commit](https://conventionalcommits.org/).
 - [ESLint](https://eslint.org) - Static code analyzer.
