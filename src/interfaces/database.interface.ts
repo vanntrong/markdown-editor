@@ -11,14 +11,16 @@ export interface Database {
           id: string
           name: string
           updated_at: string | null
+          is_recent: boolean | null
         }
         Insert: {
           author?: string | null
           content?: string | null
           created_at?: string | null
-          id: string
+          id?: string
           name?: string
           updated_at?: string | null
+          is_recent?: boolean | null
         }
         Update: {
           author?: string | null
@@ -27,6 +29,7 @@ export interface Database {
           id?: string
           name?: string
           updated_at?: string | null
+          is_recent?: boolean | null
         }
       }
       profiles: {
