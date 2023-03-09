@@ -2,7 +2,7 @@ import { type LoginProvider } from '@/modules/auth/services/useLogin'
 import { Button, ButtonGroup, VisuallyHidden } from '@chakra-ui/react'
 import { type FC } from 'react'
 
-import { GitHubIcon, GoogleIcon, TwitterIcon } from '../provider-icon'
+import { FacebookIcon, GitHubIcon, GoogleIcon } from '../provider-icon'
 
 interface OAuthButtonGroupProps {
   handleLogin: (provider: LoginProvider) => void
@@ -18,10 +18,10 @@ export const OAuthButtonGroup: FC<OAuthButtonGroupProps> = ({ handleLogin }): JS
       }
     },
     {
-      name: 'Twitter',
-      icon: <TwitterIcon />,
+      name: 'Facebook',
+      icon: <FacebookIcon />,
       onClick: () => {
-        handleLogin('twitter')
+        handleLogin('facebook')
       }
     },
     {
@@ -33,9 +33,9 @@ export const OAuthButtonGroup: FC<OAuthButtonGroupProps> = ({ handleLogin }): JS
     }
   ]
   return (
-    <ButtonGroup variant="outline" spacing="4" width="full">
+    <ButtonGroup variant={'outline'} spacing="4" width="full">
       {providers.map(({ name, icon, onClick }) => (
-        <Button key={name} width="full" onClick={onClick}>
+        <Button key={name} width="full" onClick={onClick} gap={4}>
           <VisuallyHidden>Sign in with {name}</VisuallyHidden>
           {icon}
         </Button>
