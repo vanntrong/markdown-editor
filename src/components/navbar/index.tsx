@@ -1,6 +1,5 @@
-import { ROUTES } from '@/constants'
-import { useAuthContext } from '@/contexts/auth.context'
-import { Avatar, Button, EditableInput, EditablePreview } from '@chakra-ui/react'
+import useLogout from '@/modules/auth/services/useLogOut'
+import { EditableInput, EditablePreview } from '@chakra-ui/react'
 import { type FC, useCallback, useMemo } from 'react'
 import {
   BiCodeBlock,
@@ -16,8 +15,8 @@ import {
 } from 'react-icons/bi'
 import { BsFolderFill, BsLink45Deg, BsQuote, BsTypeBold } from 'react-icons/bs'
 import { IoMdRedo, IoMdUndo } from 'react-icons/io'
-import { Link } from 'react-router-dom'
 
+import NavbarMenu from './navbar-menu'
 import { InlineEditFileName, NavbarContainer, NavbarItem, NavbarItemsWrapper } from './styles'
 
 interface INavbarItem {
@@ -90,7 +89,8 @@ const Navbar: FC<INavbarProps> = ({
   onDownload,
   onUpload
 }): JSX.Element => {
-  const { user } = useAuthContext()
+  const { logout } = useLogout()
+
   const handleChange = useCallback(
     async (type: ToolbarItem): Promise<void> => {
       const selection = document.getSelection()?.toString()
@@ -261,16 +261,7 @@ const Navbar: FC<INavbarProps> = ({
         {navbarItemsRight.map(({ ariaLabel, icon, key, ...props }) => (
           <NavbarItem aria-label={ariaLabel} icon={icon} key={key} {...props} title={ariaLabel} />
         ))}
-
-        {user ? (
-          <Avatar name={user.full_name ?? ''} src={user.avatar_url ?? ''} size={'sm'} />
-        ) : (
-          <Link to={ROUTES.login}>
-            <Button colorScheme="teal" variant="outline">
-              Login
-            </Button>
-          </Link>
-        )}
+        <NavbarMenu onLogout={logout} />
       </NavbarItemsWrapper>
     </NavbarContainer>
   )
