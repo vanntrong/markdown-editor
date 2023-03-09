@@ -1,6 +1,6 @@
 import { supabase } from '@/configs'
 import { useAppContext } from '@/contexts/app.context'
-import { toast } from '@/utils'
+import { toastError } from '@/utils'
 
 interface UseCreateWorkspaceOutput {
   createWorkspace: (name: string, author: string) => Promise<void>
@@ -27,14 +27,7 @@ const useCreateWorkspace = (): UseCreateWorkspaceOutput => {
       }
     } catch (error) {
       if (error instanceof Error) {
-        toast({
-          title: 'Error',
-          description: 'Something went wrong',
-          status: 'error',
-          duration: 5000,
-          isClosable: true,
-          position: 'top-right'
-        })
+        toastError(error.message)
       }
     }
   }

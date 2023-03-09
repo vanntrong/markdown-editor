@@ -25,7 +25,6 @@ const useUpdateWorkspace = (): useUpdateWorkspaceOutput => {
       }
     } catch (error) {
       if (error instanceof Error) {
-        console.error(error)
         toast({
           title: 'Error',
           description: error.message,

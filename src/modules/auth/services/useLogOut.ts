@@ -1,4 +1,5 @@
 import { supabase } from '@/configs'
+import { toastError } from '@/utils'
 
 interface LogoutOutput {
   logout: () => void
@@ -12,7 +13,7 @@ const useLogout = (): LogoutOutput => {
         window.location.reload()
       })
       .catch((error) => {
-        console.log(error)
+        toastError(error.message)
       })
   }
 

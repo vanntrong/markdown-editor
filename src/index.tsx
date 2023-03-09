@@ -1,5 +1,4 @@
 import { ChakraProvider, ColorModeScript } from '@chakra-ui/react'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 
@@ -10,8 +9,6 @@ import { AuthProvider } from './contexts/auth.context'
 import './index.css'
 import { ToastContainer } from './utils'
 
-const queryClient = new QueryClient()
-
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
   <React.StrictMode>
@@ -19,9 +16,7 @@ root.render(
       <ColorModeScript initialColorMode={theme.config.initialColorMode} />
       <AuthProvider>
         <AppProvider>
-          <QueryClientProvider client={queryClient}>
-            <App />
-          </QueryClientProvider>
+          <App />
         </AppProvider>
       </AuthProvider>
       <ToastContainer />

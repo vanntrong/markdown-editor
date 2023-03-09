@@ -1,6 +1,6 @@
 import { supabase } from '@/configs'
 import { type User } from '@/interfaces'
-import { toast } from '@/utils'
+import { toastError } from '@/utils'
 import { AuthError } from '@supabase/supabase-js'
 import { useCallback } from 'react'
 
@@ -22,13 +22,7 @@ const useGetMe = (): UseGetMeOutput => {
       }
     } catch (error: unknown) {
       if (error instanceof AuthError) {
-        toast({
-          title: 'Error',
-          description: error?.message ?? 'Something went wrong',
-          status: 'error',
-          duration: 5000,
-          position: 'top-right'
-        })
+        toastError(error.message)
       }
       return {
         user: null

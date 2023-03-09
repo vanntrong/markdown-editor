@@ -1,5 +1,5 @@
 import { supabase } from '@/configs'
-import { toast } from '@/utils'
+import { toastError } from '@/utils'
 import { useCallback } from 'react'
 
 export type LoginProvider = 'google' | 'github' | 'facebook' | 'twitter'
@@ -17,13 +17,7 @@ const useLoginOAuth = (): LoginOutput => {
       }
     })
     if (error) {
-      toast({
-        title: 'Error',
-        description: error.message,
-        status: 'error',
-        duration: 5000,
-        position: 'top-right'
-      })
+      toastError(error.message)
     }
   }, [])
 

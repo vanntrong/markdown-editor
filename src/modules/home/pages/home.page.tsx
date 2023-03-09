@@ -2,7 +2,7 @@ import Navbar from '@/components/navbar'
 import { MARKDOWN_FILE_SUFFIX } from '@/constants'
 import { useAppContext } from '@/contexts/app.context'
 import useUpdateWorkspace from '@/modules/workspace/services/useUpdateWorkspace'
-import { downloadFile, uploadFileText } from '@/utils'
+import { downloadFile, toastError, uploadFileText } from '@/utils'
 import { type ChangeEvent, useCallback, useEffect, useRef, useState } from 'react'
 import { ScrollSync, ScrollSyncPane } from 'react-scroll-synchronize'
 
@@ -13,9 +13,10 @@ import { HomeWrapper } from '../styles/home.styles'
 const Home = (): JSX.Element => {
   const { currentWorkspace } = useAppContext()
   const [markdownContent, setMarkdownContent] = useState('')
+  const [filename, setFilename] = useState('Untitled')
   const [undoStack, setUndoStack] = useState<string[]>([])
   const [redoStack, setRedoStack] = useState<string[]>([])
-  const [filename, setFilename] = useState('Untitled')
+
   const editorRef = useRef<HTMLTextAreaElement>(null)
   const previewRef = useRef<HTMLDivElement>(null)
   const uploadFileRef = useRef<HTMLInputElement>(null)
@@ -82,7 +83,7 @@ const Home = (): JSX.Element => {
         setMarkdownContent(content)
       })
       .catch((e) => {
-        console.error(e)
+        toastError(e.message)
       })
   }, [])
 
@@ -90,10 +91,10 @@ const Home = (): JSX.Element => {
     if (currentWorkspace) {
       setMarkdownContent(currentWorkspace.content ?? '')
       setFilename(currentWorkspace.name)
-    } else {
-      setMarkdownContent(localStorage.getItem('markdownContent') ?? '')
-      setFilename(localStorage.getItem('filename') ?? 'Untitled')
+      return
     }
+    setMarkdownContent(localStorage.getItem('markdownContent') ?? '')
+    setFilename(localStorage.getItem('filename') ?? 'Untitled')
   }, [currentWorkspace])
 
   useEffect(() => {
@@ -115,20 +116,24 @@ const Home = (): JSX.Element => {
     }
   }, [markdownContent, filename])
 
+  const undo = (): void => {
+    setRedoStack((prev) => [...prev, markdownContent])
+    setMarkdownContent(undoStack.pop() ?? '')
+  }
+
+  const redo = (): void => {
+    setUndoStack((prev) => [...prev, markdownContent])
+    setMarkdownContent(redoStack.pop() ?? '')
+  }
+
   return (
     <div>
       <Navbar
         changeContent={handleChangeContent}
         isDisableUndo={undoStack.length === 0}
         isDisableRedo={redoStack.length === 0}
-        undo={() => {
-          setRedoStack((prev) => [...prev, markdownContent])
-          setMarkdownContent(undoStack.pop() ?? '')
-        }}
-        redo={() => {
-          setUndoStack((prev) => [...prev, markdownContent])
-          setMarkdownContent(redoStack.pop() ?? '')
-        }}
+        undo={undo}
+        redo={redo}
         filename={filename}
         onChangeFilename={(val) => {
           setFilename(val)

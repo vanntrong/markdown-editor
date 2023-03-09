@@ -95,7 +95,7 @@ const Navbar: FC<INavbarProps> = ({
   const { logout } = useLogout()
   const { workspaces } = useAppContext()
 
-  const handleChange = useCallback(
+  const handleChangeContent = useCallback(
     async (type: ToolbarItem): Promise<void> => {
       const selection = document.getSelection()?.toString()
       const rawContent = selection && selection?.length > 0 ? selection : ToolbarItem[type]
@@ -134,7 +134,7 @@ const Navbar: FC<INavbarProps> = ({
         icon: <BsTypeBold color="gray" size={24} />,
         ariaLabel: 'Bold',
         onClick: () => {
-          handleChange(ToolbarItem.bold)
+          handleChangeContent(ToolbarItem.bold)
         }
       },
       {
@@ -142,7 +142,7 @@ const Navbar: FC<INavbarProps> = ({
         icon: <BiItalic color="gray" size={24} />,
         ariaLabel: 'Italic',
         onClick: () => {
-          handleChange(ToolbarItem.italic)
+          handleChangeContent(ToolbarItem.italic)
         }
       },
       {
@@ -150,7 +150,7 @@ const Navbar: FC<INavbarProps> = ({
         icon: <BiHeading color="gray" size={24} />,
         ariaLabel: 'Heading',
         onClick: () => {
-          handleChange(ToolbarItem.heading)
+          handleChangeContent(ToolbarItem.heading)
         }
       },
       {
@@ -158,7 +158,7 @@ const Navbar: FC<INavbarProps> = ({
         icon: <BiStrikethrough color="gray" size={24} />,
         ariaLabel: 'Strikethrough',
         onClick: () => {
-          handleChange(ToolbarItem.strikethrough)
+          handleChangeContent(ToolbarItem.strikethrough)
         }
       },
       {
@@ -166,7 +166,7 @@ const Navbar: FC<INavbarProps> = ({
         icon: <BiCodeBlock color="gray" size={24} />,
         ariaLabel: 'Code',
         onClick: () => {
-          handleChange(ToolbarItem.code)
+          handleChangeContent(ToolbarItem.code)
         }
       },
       {
@@ -174,7 +174,7 @@ const Navbar: FC<INavbarProps> = ({
         icon: <BiListUl color="gray" size={24} />,
         ariaLabel: 'Underscore list',
         onClick: () => {
-          handleChange(ToolbarItem.underscore_list)
+          handleChangeContent(ToolbarItem.underscore_list)
         }
       },
       {
@@ -182,7 +182,7 @@ const Navbar: FC<INavbarProps> = ({
         icon: <BiListOl color="gray" size={24} />,
         ariaLabel: 'Numbered list',
         onClick: () => {
-          handleChange(ToolbarItem.numbered_list)
+          handleChangeContent(ToolbarItem.numbered_list)
         }
       },
       {
@@ -190,7 +190,7 @@ const Navbar: FC<INavbarProps> = ({
         icon: <BiListCheck color="gray" size={24} />,
         ariaLabel: 'Check list',
         onClick: () => {
-          handleChange(ToolbarItem.check_list)
+          handleChangeContent(ToolbarItem.check_list)
         }
       },
       {
@@ -198,7 +198,7 @@ const Navbar: FC<INavbarProps> = ({
         icon: <BsQuote color="gray" size={24} />,
         ariaLabel: 'Quote',
         onClick: () => {
-          handleChange(ToolbarItem.quote)
+          handleChangeContent(ToolbarItem.quote)
         }
       },
       {
@@ -206,7 +206,7 @@ const Navbar: FC<INavbarProps> = ({
         icon: <BiTable color="gray" size={24} />,
         ariaLabel: 'Table',
         onClick: () => {
-          handleChange(ToolbarItem.table)
+          handleChangeContent(ToolbarItem.table)
         }
       },
       {
@@ -214,11 +214,11 @@ const Navbar: FC<INavbarProps> = ({
         icon: <BsLink45Deg color="gray" size={24} />,
         ariaLabel: 'Link',
         onClick: () => {
-          handleChange(ToolbarItem.link)
+          handleChangeContent(ToolbarItem.link)
         }
       }
     ],
-    [handleChange, undo, isDisableUndo, isDisableRedo, redo]
+    [handleChangeContent, undo, isDisableUndo, isDisableRedo, redo]
   )
 
   const navbarItemsRight: INavbarItem[] = useMemo(

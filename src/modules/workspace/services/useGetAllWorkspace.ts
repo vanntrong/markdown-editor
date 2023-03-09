@@ -1,6 +1,6 @@
 import { supabase } from '@/configs'
 import { useAuthContext } from '@/contexts/auth.context'
-import { toast } from '@/utils'
+import { toastError } from '@/utils'
 import { useCallback } from 'react'
 
 import { type Workspace } from '../interfaces/workspace.interface'
@@ -34,15 +34,7 @@ const useGetAllWorkspace = (): useGetAllWorkspaceOutput => {
         workspaces: data ?? []
       }
     } catch (error) {
-      console.error(error)
-      toast({
-        title: 'Error',
-        description: 'Something went wrong',
-        status: 'error',
-        duration: 5000,
-        isClosable: true,
-        position: 'top-right'
-      })
+      toastError(error instanceof Error ? error?.message : undefined)
       return {
         workspaces: []
       }
